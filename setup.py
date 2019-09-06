@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'telepy',         # How you named your package folder (MyLib)
   packages = ['telepy'],   # Chose the same as "name"
-  version = '0.3',      # Start with a small number and increase it with every change you make
+  version = 'v0.3',      # Start with a small number and increase it with every change you make
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'A Python Class to convert numbers to English Words, English Words to phone numbers. Currently support 10-11 phone numbers',   # Give a short description about your library
   author = 'Zipei Wei',                   # Type in your name
