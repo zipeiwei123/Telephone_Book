@@ -1,1 +1,1 @@
-from Phone import *
+from .phonewordzp import *
