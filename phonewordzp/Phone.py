@@ -3,11 +3,12 @@ import re
 import random
 #English Dictionary Package
 import enchant
+import time
 from itertools import permutations
 
 #Global Variables
 Phone_Directory = {
-				 '2': ['A', 'B', 'C'],
+		 '2': ['A', 'B', 'C'],
                  '3': ['D', 'E', 'F'],
                  '4': ['G', 'G', 'I'],
                  '5': ['J', 'K', 'L'],
@@ -22,6 +23,8 @@ Check_Word = enchant.Dict("en_US")
 class Telephone_Book:
     def __init__(self, string):
         """An inheritage Class for getting the phone number and reusable structure"""
+        #a Time to check how long for program to run
+        self.start_time = time.time()
         self.string = string
         # A dictionary to store 0 and 1 from the original phone number with indexes
         self.indexs_0_1 = None
@@ -29,13 +32,15 @@ class Telephone_Book:
         self.hash_table = {}
         #all the words generation from numbers
         self.all_combinations = []
+       
 
 
     def number_to_words(self):
         """Randomly output a solution from all_wordifications, A solution combined Words and Numbers"""
         self.all_wordifications()
         x = random.randrange((len(self.all_combinations)-1))
-        print(self.all_combinations[x])
+        elapsed_time = time.time() - self.start_time
+        print('\nRequest Time: {}\n'.format(elapsed_time))
         return self.all_combinations[x]
 
 
@@ -50,12 +55,13 @@ class Telephone_Book:
         if not clean_words:
             sys.exit("Wrong Input len or char, retry")
 
-
         string_list = [s for s in clean_words]
         for index in range(len(string_list)):
             for number, letter in Phone_Directory.items():
                 if string_list[index] in letter:
                     string_list[index] = number
+        elapsed_time = time.time() - self.start_time
+        print('\nRequest Time: {}\n'.format(elapsed_time))
         return self.encoding_numbers(''.join(string_list))
 
 
@@ -82,7 +88,8 @@ class Telephone_Book:
         self.generate_hash_table(divider)
         #generate the full solutions from hash table
         self.generate_solutions()
-        #print(all possible solutions)
+        elapsed_time = time.time() - self.start_time
+        print('\nRequest Time: {}\n'.format(elapsed_time))
         return self.all_combinations
 
         
@@ -138,10 +145,15 @@ class Telephone_Book:
             For instance '' is a divider generate from 0,1s, ignore
                          '78342' is a valid part that can iterate all the words and numbers"""
         for div in divider:
+            #stop if the subsequence are too large
+            if len(div) > 8:
+                sys.exit("Phone number len(n) > 8 are too large for dictionary to generate, retry.")
             if div and len(div) > 1:
                 self.hash_table[div] = self.get_all_word(div)
             elif len(div) == 1:
                 self.hash_table[div] = Phone_Directory[div]
+                #add original number
+                self.hash_table[div].append(div)
            
 
     def get_all_word(self, numbers):
@@ -232,7 +244,3 @@ class Telephone_Book:
             return raw_string[0] + '-' + raw_string[1:4] + '-' + raw_string[4:7] + '-' + raw_string[7:]
 
 
-
-
-
-     
